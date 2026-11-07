@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal Login | Azan Public School</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #07192e 0%, #0b2545 50%, #0f825e 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+    .admin-login-card {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: var(--radius-lg);
+      padding: 2.75rem 2.25rem;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+      position: relative;
+    }
+    .admin-badge {
+      display: inline-block;
+      background: rgba(15, 130, 94, 0.12);
+      color: var(--secondary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-full);
+      margin-bottom: 1rem;
+    }
+    .login-input-group {
+      position: relative;
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    .login-input-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+    }
+    .login-input-group input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem;
+      transition: var(--transition);
+    }
+    .login-input-group input:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(15, 130, 94, 0.15);
+    }
+    .login-icon {
+      position: absolute;
+      left: 0.9rem;
+      bottom: 0.85rem;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    .toggle-pwd {
+      position: absolute;
+      right: 0.9rem;
+      bottom: 0.85rem;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .demo-credentials {
+      background: #f1f5f9;
+      border-left: 4px solid var(--secondary);
+      padding: 0.85rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: var(--text-main);
+      text-align: left;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-login-card">
+    <div style="margin-bottom: 1.25rem;">
+      <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: #fff; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 0.75rem auto; box-shadow: 0 8px 16px rgba(11,37,69,0.25);">
+        <i class="fa-solid fa-user-shield"></i>
+      </div>
+      <span class="admin-badge">Secure Admin Access</span>
+      <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--primary); margin: 0;">AZAN PUBLIC SCHOOL</h2>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Ladon, Peer Adil, Dera Ghazi Khan</p>
+    </div>
+
+    <form id="adminLoginForm">
+      <div id="loginErrorMsg" style="display: none; background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 0.65rem; border-radius: 6px; font-size: 0.82rem; margin-bottom: 1.25rem; font-weight: 600;">
+        <i class="fa-solid fa-triangle-exclamation"></i> Incorrect username or password.
+      </div>
+
+      <div class="login-input-group">
+        <label>Username / Admin ID</label>
+        <i class="fa-solid fa-user login-icon"></i>
+        <input type="text" id="adminUser" placeholder="Enter username" required autofocus value="admin">
+      </div>
+
+      <div class="login-input-group">
+        <label>Password</label>
+        <i class="fa-solid fa-lock login-icon"></i>
+        <input type="password" id="adminPass" placeholder="Enter password" required value="admin123">
+        <i class="fa-solid fa-eye toggle-pwd" id="togglePasswordBtn"></i>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.8rem; font-size: 0.95rem;">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In to Dashboard
+      </button>
+
+      <div class="demo-credentials">
+        <strong><i class="fa-solid fa-key" style="color: var(--secondary);"></i> Default Admin Credentials:</strong><br>
+        <span>Username: <strong>admin</strong></span><br>
+        <span>Password: <strong>admin123</strong></span>
+      </div>
+
+      <div style="margin-top: 1.5rem; font-size: 0.85rem;">
+        <a href="index.html" style="color: var(--secondary); font-weight: 600; text-decoration: none;">
+          <i class="fa-solid fa-arrow-left"></i> Back to School Website
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <script src="assets/js/db.js"></script>
+  <script>
+    // Check if already logged in
+    if (APS_DB.getCurrentUser()) {
+      window.location.href = 'admin-dashboard.html';
+    }
+
+    // Toggle Password
+    const pwdInput = document.getElementById('adminPass');
+    const toggleBtn = document.getElementById('togglePasswordBtn');
+    toggleBtn.addEventListener('click', () => {
+      if (pwdInput.type === 'password') {
+        pwdInput.type = 'text';
+        toggleBtn.classList.remove('fa-eye');
+        toggleBtn.classList.add('fa-eye-slash');
+      } else {
+        pwdInput.type = 'password';
+        toggleBtn.classList.remove('fa-eye-slash');
+        toggleBtn.classList.add('fa-eye');
+      }
+    });
+
+    // Form Submit
+    const loginForm = document.getElementById('adminLoginForm');
+    const errorMsg = document.getElementById('loginErrorMsg');
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = document.getElementById('adminUser').value.trim();
+      const pass = document.getElementById('adminPass').value.trim();
+
+      if (APS_DB.login(user, pass)) {
+        window.location.href = 'admin-dashboard.html';
+      } else {
+        errorMsg.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

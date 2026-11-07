@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Control Panel | Azan Public School</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    body {
+      background-color: #f1f5f9;
+      color: #1e293b;
+    }
+    .admin-navbar {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 0.9rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow-md);
+    }
+    .admin-nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .admin-tab-bar {
+      background: #ffffff;
+      border-bottom: 2px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 66px;
+      z-index: 990;
+    }
+    .admin-tab-nav {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.5rem 0;
+    }
+    .admin-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.7rem 1.25rem;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #64748b;
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+    .admin-tab-btn:hover {
+      color: var(--primary);
+      background: #f8fafc;
+    }
+    .admin-tab-btn.active {
+      color: var(--primary);
+      background: rgba(11, 37, 69, 0.08);
+      border-color: rgba(11, 37, 69, 0.15);
+    }
+    .tab-badge {
+      background: #16a34a;
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      font-weight: 800;
+    }
+
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin: 1.5rem 0 2rem 0;
+    }
+    .admin-stat-card {
+      background: #ffffff;
+      padding: 1.35rem 1.5rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .stat-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .bg-blue-soft { background: #e0f2fe; color: #0284c7; }
+    .bg-green-soft { background: #dcfce7; color: #16a34a; }
+    .bg-amber-soft { background: #fef3c7; color: #d97706; }
+    .bg-purple-soft { background: #f3e8ff; color: #9333ea; }
+    .bg-red-soft { background: #fee2e2; color: #dc2626; }
+    .bg-teal-soft { background: #ccfbf1; color: #0f766e; }
+
+    .db-controls-card {
+      background: #ffffff;
+      padding: 1.25rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .db-filters {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .db-search-input {
+      padding: 0.6rem 0.85rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      min-width: 250px;
+    }
+    .db-select-filter {
+      padding: 0.6rem 0.85rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      background: #fff;
+    }
+
+    .table-container {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .admin-table th {
+      background: #f8fafc;
+      padding: 0.9rem 1.1rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #475569;
+      border-bottom: 2px solid var(--border-color);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .admin-table td {
+      padding: 1rem 1.1rem;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.88rem;
+      vertical-align: middle;
+    }
+    .admin-table tr:hover {
+      background-color: #f8fafc;
+    }
+
+    .action-btn-group {
+      display: flex;
+      gap: 0.4rem;
+    }
+    .action-icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #475569;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+    .action-icon-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .action-icon-btn.btn-delete:hover {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: #fff;
+    }
+    .action-icon-btn.btn-wa {
+      color: #25d366;
+    }
+    .action-icon-btn.btn-wa:hover {
+      background: #25d366;
+      color: #fff;
+      border-color: #25d366;
+    }
+    .action-icon-btn.btn-edit:hover {
+      background: #d97706;
+      border-color: #d97706;
+      color: #fff;
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .status-Pending { background: #fef3c7; color: #b45309; }
+    .status-Approved { background: #dcfce7; color: #15803d; }
+    .status-Under-Review { background: #e0e7ff; color: #4338ca; }
+    .status-Rejected { background: #fee2e2; color: #b91c1c; }
+    .status-Upcoming { background: #e0f2fe; color: #0369a1; }
+    .status-Ongoing { background: #dcfce7; color: #15803d; }
+    .status-Completed { background: #f1f5f9; color: #64748b; }
+    .status-Passed { background: #dcfce7; color: #15803d; font-weight: 700; }
+    .status-Supply { background: #fee2e2; color: #b91c1c; font-weight: 800; border: 1px solid #fecaca; }
+    .status-Cleared { background: #ccfbf1; color: #0f766e; font-weight: 700; }
+
+    .category-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+    .tag-Examinations { background: #fee2e2; color: #991b1b; }
+    .tag-Parent-Meeting { background: #e0e7ff; color: #3730a3; }
+    .tag-Sports-Gala, .tag-Sports { background: #fef3c7; color: #92400e; }
+    .tag-Exhibition { background: #ccfbf1; color: #115e59; }
+    .tag-Academic { background: #dbeafe; color: #1e40af; }
+    .tag-Ceremony { background: #f3e8ff; color: #6b21a8; }
+    .tag-General { background: #f1f5f9; color: #475569; }
+
+    .admin-tab-pane {
+      display: none;
+    }
+    .admin-tab-pane.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-group-custom {
+      margin-bottom: 1.15rem;
+    }
+    .form-group-custom label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.35rem;
+    }
+    .form-group-custom input,
+    .form-group-custom select,
+    .form-group-custom textarea {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      background: #ffffff;
+      font-family: inherit;
+    }
+    .form-group-custom input:focus,
+    .form-group-custom select:focus,
+    .form-group-custom textarea:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(15, 130, 94, 0.15);
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .grid-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .preset-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .preset-btn:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+      color: var(--primary);
+    }
+    @media (max-width: 768px) {
+      .grid-2col, .grid-3col {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ADMIN NAVBAR -->
+  <nav class="admin-navbar">
+    <div class="container admin-nav-wrapper">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 42px; height: 42px; background: #fff; color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div>
+          <h2 style="font-size: 1.15rem; font-weight: 800; margin: 0; line-height: 1.2;">AZAN PUBLIC SCHOOL</h2>
+          <span style="font-size: 0.75rem; color: var(--accent-light); text-transform: uppercase; letter-spacing: 0.5px;">
+            Full Control Panel &bull; Ladon, Peer Adil Campus
+          </span>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 1.25rem;">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--secondary); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700;">
+            WF
+          </div>
+          <div style="font-size: 0.85rem;">
+            <div style="font-weight: 700;" id="adminUserName">Principal Wasim Fida</div>
+            <div style="font-size: 0.72rem; color: #94a3b8;">Administrator (BSCS)</div>
+          </div>
+        </div>
+
+        <a href="index.html" class="btn btn-outline-white btn-sm" target="_blank">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Website
+        </a>
+
+        <a href="results.html" class="btn btn-outline-white btn-sm" target="_blank" title="Open Student Result Portal">
+          <i class="fa-solid fa-square-poll-vertical"></i> Result Portal
+        </a>
+
+        <button class="btn btn-accent btn-sm" onclick="APS_DB.logout()">
+          <i class="fa-solid fa-power-off"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SUB-NAVIGATION: ADMIN TABS -->
+  <div class="admin-tab-bar">
+    <div class="container">
+      <div class="admin-tab-nav">
+        <button class="admin-tab-btn active" data-tab="tabAdmissions" onclick="switchAdminTab('tabAdmissions')">
+          <i class="fa-solid fa-user-graduate"></i>
+          <span>Admissions &amp; Inquiries</span>
+          <span id="tabApplicantsCount" class="tab-badge">0</span>
+        </button>
+
+        <button class="admin-tab-btn" data-tab="tabResults" onclick="switchAdminTab('tabResults')">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>Exam Results &amp; Portal</span>
+          <span id="tabResultsCount" class="tab-badge" style="background:#059669;">0</span>
+        </button>
+
+        <button class="admin-tab-btn" data-tab="tabNotices" onclick="switchAdminTab('tabNotices')">
+          <i class="fa-solid fa-bullhorn"></i>
+          <span>Notices &amp; Circulars</span>
+          <span id="tabNoticesCount" class="tab-badge" style="background:#0284c7;">0</span>
+        </button>
+
+        <button class="admin-tab-btn" data-tab="tabEvents" onclick="switchAdminTab('tabEvents')">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Events &amp; Sports Gala</span>
+          <span id="tabEventsCount" class="tab-badge" style="background:#d97706;">0</span>
+        </button>
+
+        <button class="admin-tab-btn" data-tab="tabFeeStructure" onclick="switchAdminTab('tabFeeStructure')">
+          <i class="fa-solid fa-calculator"></i>
+          <span>Fee Structure Manager</span>
+        </button>
+
+        <button class="admin-tab-btn" data-tab="tabSettings" onclick="switchAdminTab('tabSettings')">
+          <i class="fa-solid fa-gears"></i>
+          <span>School Info &amp; Settings</span>
+        </button>
+
+        <button class="admin-tab-btn" data-tab="tabBannerSlider" onclick="switchAdminTab('tabBannerSlider')">
+          <i class="fa-solid fa-images"></i>
+          <span>Home Banner &amp; Slider</span>
+          <span id="tabSlidesCount" class="tab-badge" style="background:#8b5cf6;">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN DASHBOARD CONTENT -->
+  <main class="container" style="padding-top: 1.5rem; padding-bottom: 3.5rem;">
+
+    <!-- ══════════════════════════════════════════════════════════════
+         TAB 1: ADMISSIONS & ONLINE APPLICATIONS
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="tabAdmissions" class="admin-tab-pane active">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+        <div>
+          <h1 style="font-size: 1.65rem; font-weight: 800; color: var(--primary); display:flex; align-items:center; gap:0.65rem;">
+            Online Admission Applications Database
+            <span id="newSubmissionsBadge" style="display:none; background:#16a34a; color:#fff; font-size:0.72rem; font-weight:800; padding:3px 10px; border-radius:9999px;"></span>
+          </h1>
+          <p style="font-size: 0.88rem; color: #64748b;">
+            Live applications submitted by parents via website form.
+            <span style="color:#0f825e; font-weight:600; margin-left:4px;">
+              <i class="fa-solid fa-circle" style="font-size:0.55rem; vertical-align:middle;"></i> Auto-syncs in real-time
+            </span>
+          </p>
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+          <button class="btn btn-secondary btn-sm" onclick="openAddModal()">
+            <i class="fa-solid fa-plus"></i> Add Application
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="loadApplicationsTable()" title="Refresh table now">
+            <i class="fa-solid fa-rotate"></i> Refresh
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="APS_DB.exportToCSV()">
+            <i class="fa-solid fa-file-excel"></i> Export CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Admissions Metrics -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div class="stat-icon-wrap bg-blue-soft"><i class="fa-solid fa-users"></i></div>
+          <div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: var(--primary);" id="metricTotal">0</div>
+            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Total Applicants</div>
+          </div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div class="stat-icon-wrap bg-amber-soft"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: #d97706;" id="metricPending">0</div>
+            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Pending Review</div>
+          </div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div class="stat-icon-wrap bg-green-soft"><i class="fa-solid fa-circle-check"></i></div>
+          <div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: #16a34a;" id="metricApproved">0</div>
+            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Approved Admissions</div>
+          </div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div class="stat-icon-wrap bg-purple-soft"><i class="fa-solid fa-van-shuttle"></i></div>
+          <div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: #9333ea;" id="metricTransport">0</div>
+            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Van Required</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="db-controls-card">
+        <div class="db-filters">
+          <input type="text" id="searchInput" class="db-search-input" placeholder="Search by Student, Father, Reg ID, Phone...">
+          
+          <select id="filterGrade" class="db-select-filter">
+            <option value="all">All Classes / Grades</option>
+            <option value="Playgroup">Playgroup</option>
+            <option value="Nursery">Nursery</option>
+            <option value="Prep">Prep (KG)</option>
+            <option value="Class 1">Class 1</option>
+            <option value="Class 2">Class 2</option>
+            <option value="Class 3">Class 3</option>
+            <option value="Class 4">Class 4</option>
+            <option value="Class 5">Class 5</option>
+            <option value="Class 6">Class 6</option>
+            <option value="Class 7">Class 7</option>
+            <option value="Class 8">Class 8</option>
+            <option value="Class 9">Class 9 (Matric)</option>
+            <option value="Class 10">Class 10 (Matric)</option>
+          </select>
+
+          <select id="filterStatus" class="db-select-filter">
+            <option value="all">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Under Review">Under Review</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+
+        <button class="btn btn-outline btn-sm" onclick="loadApplicationsTable()">
+          <i class="fa-solid fa-rotate"></i> Refresh
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Reg ID</th>
+              <th>Candidate Particulars</th>
+              <th>Class / Grade</th>
+              <th>Father / Contact</th>
+              <th>Submission Date</th>
+              <th>Admission Status</th>
+              <th style="text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="applicationsTableBody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════
+         TAB 2: NOTICES & CIRCULARS MANAGEMENT
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="tabNotices" class="admin-tab-pane">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+        <div>
+          <h1 style="font-size: 1.65rem; font-weight: 800; color: var(--primary);">
+            School Notices &amp; Announcements Manager
+          </h1>
+          <p style="font-size: 0.88rem; color: #64748b;">
+            Notices posted here immediately appear on the School Notice Board (notices.html) and Homepage.
+          </p>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="openNoticeModal()">
+          <i class="fa-solid fa-plus"></i> Post New Notice
+        </button>
+      </div>
+
+      <!-- Notice Stats -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div class="stat-icon-wrap bg-blue-soft"><i class="fa-solid fa-bullhorn"></i></div>
+          <div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: var(--primary);" id="statTotalNotices">0</div>
+            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Total Active Notices</div>
+          </div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div class="stat-icon-wrap bg-amber-soft"><i class="fa-solid fa-thumbtack"></i></div>
+          <div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: #d97706;" id="statPinnedNotices">0</div>
+            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Pinned to Top Ticker</div>
+          </div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div class="stat-icon-wrap bg-red-soft"><i class="fa-solid fa-file-lines"></i></div>
+          <div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: #dc2626;" id="statExamNotices">0</div>
+            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Exam Date Sheets</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notices Table -->
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Ref No. &amp; Category</th>
+              <th>Notice Title &amp; Details</th>
+              <th>Ticker Pinned</th>
+              <th style="text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="noticesTableBody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════
+         TAB 3: EVENTS & SPORTS GALA MANAGEMENT
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="tabEvents" class="admin-tab-pane">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+        <div>
+          <h1 style="font-size: 1.65rem; font-weight: 800; color: var(--primary);">
+            School Events &amp; Sports Gala Calendar
+          </h1>
+          <p style="font-size: 0.88rem; color: #64748b;">
+            Manage upcoming sports competitions, science exhibitions, ceremonies, and school activities.
+          </p>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="openEventModal()">
+          <i class="fa-solid fa-plus"></i> Add New Event
+        </button>
+      </div>
+
+      <!-- Events Stats -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div class="stat-icon-wrap bg-purple-soft"><i class="fa-solid fa-calendar-days"></i></div>
+          <div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: #9333ea;" id="statTotalEvents">0</div>
+            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Total Events</div>
+          </div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div class="stat-icon-wrap bg-teal-soft"><i class="fa-solid fa-trophy"></i></div>
+          <div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: #0f766e;" id="statSportsEvents">0</div>
+            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Sports &amp; Athletics</div>
+          </div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div class="stat-icon-wrap bg-blue-soft"><i class="fa-solid fa-hourglass-half"></i></div>
+          <div>
+            <div style="font-size: 1.75rem; font-weight: 800; color: #0284c7;" id="statUpcomingEvents">0</div>
+            <div style="font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Upcoming Status</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Events Table -->
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Date &amp; Time</th>
+              <th>Event Title</th>
+              <th>Category</th>
+              <th>Venue / Ground</th>
+              <th>Status</th>
+              <th style="text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="eventsTableBody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════
+         TAB 4: FEE STRUCTURE MANAGER
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="tabFeeStructure" class="admin-tab-pane">
+      <div style="margin-bottom: 1.5rem;">
+        <h1 style="font-size: 1.65rem; font-weight: 800; color: var(--primary);">
+          School Fee Structure &amp; Calculator Management
+        </h1>
+        <p style="font-size: 0.88rem; color: #64748b;">
+          Update tuition dues, admission charges, lab fees, and transport rates. The public online fee calculator on admissions.html updates immediately!
+        </p>
+      </div>
+
+      <div class="grid-2col" style="align-items: flex-start;">
+        <!-- Fee Editor Form -->
+        <div style="background: #ffffff; padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-file-invoice-dollar" style="color: var(--secondary);"></i> Class-wise Tuition &amp; Admission Rates
+          </h3>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+            <!-- Montessori -->
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid #7c3aed;">
+              <strong style="display: block; font-size: 0.9rem; color: var(--primary); margin-bottom: 0.5rem;">Montessori (Playgroup, Nursery, Prep)</strong>
+              <div class="grid-3col">
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Monthly Tuition (PKR)</label>
+                  <input type="number" id="fee_pg_tuition" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Admission Fee (One-Time)</label>
+                  <input type="number" id="fee_pg_admission" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Lab Charges (PKR)</label>
+                  <input type="number" id="fee_pg_lab" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Primary -->
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--primary);">
+              <strong style="display: block; font-size: 0.9rem; color: var(--primary); margin-bottom: 0.5rem;">Primary Wing (Class 1 to 5)</strong>
+              <div class="grid-3col">
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Monthly Tuition (PKR)</label>
+                  <input type="number" id="fee_primary_tuition" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Admission Fee (One-Time)</label>
+                  <input type="number" id="fee_primary_admission" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Lab Charges (PKR)</label>
+                  <input type="number" id="fee_primary_lab" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Middle -->
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--secondary);">
+              <strong style="display: block; font-size: 0.9rem; color: var(--primary); margin-bottom: 0.5rem;">Middle School (Class 6 to 8)</strong>
+              <div class="grid-3col">
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Monthly Tuition (PKR)</label>
+                  <input type="number" id="fee_middle_tuition" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Admission Fee (One-Time)</label>
+                  <input type="number" id="fee_middle_admission" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Lab Charges (PKR)</label>
+                  <input type="number" id="fee_middle_lab" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Matric -->
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid #d97706;">
+              <strong style="display: block; font-size: 0.9rem; color: var(--primary); margin-bottom: 0.5rem;">Secondary / Matriculation (Class 9 &amp; 10)</strong>
+              <div class="grid-3col">
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Monthly Tuition (PKR)</label>
+                  <input type="number" id="fee_matric_tuition" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Admission Fee (One-Time)</label>
+                  <input type="number" id="fee_matric_admission" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Lab Charges (PKR)</label>
+                  <input type="number" id="fee_matric_lab" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+              </div>
+            </div>
+
+            <!-- O-Levels -->
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid #0f766e;">
+              <strong style="display: block; font-size: 0.9rem; color: var(--primary); margin-bottom: 0.5rem;">Cambridge O-Levels</strong>
+              <div class="grid-3col">
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Monthly Tuition (PKR)</label>
+                  <input type="number" id="fee_olevels_tuition" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Admission Fee (One-Time)</label>
+                  <input type="number" id="fee_olevels_admission" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+                <div>
+                  <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Lab Charges (PKR)</label>
+                  <input type="number" id="fee_olevels_lab" class="form-control" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Transport Rates -->
+          <h4 style="font-size: 1rem; font-weight: 800; color: var(--primary); margin-bottom: 0.75rem;">
+            <i class="fa-solid fa-van-shuttle" style="color: var(--accent);"></i> Van Transport Zones &amp; Sibling Concession
+          </h4>
+
+          <div class="grid-2col" style="margin-bottom: 1.5rem;">
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Zone 1: Within 3 km (PKR/month)</label>
+              <input type="number" id="fee_zone1" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Zone 2: 3 to 7 km (PKR/month)</label>
+              <input type="number" id="fee_zone2" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Zone 3: 7 to 12 km (PKR/month)</label>
+              <input type="number" id="fee_zone3" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 600; color: #64748b;">Sibling Discount Percentage (%)</label>
+              <input type="number" id="fee_sibling_discount" style="width:100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+          </div>
+
+          <button class="btn btn-primary" onclick="saveFeeStructureFromAdmin()" style="width: 100%;">
+            <i class="fa-solid fa-floppy-disk"></i> Save &amp; Update Live Fee Structure
+          </button>
+        </div>
+
+        <!-- Live Preview Calculator -->
+        <div style="background: var(--primary); color: #ffffff; padding: 1.75rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+          <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 0.75rem;">
+            <i class="fa-solid fa-calculator" style="font-size: 1.4rem; color: var(--accent-light);"></i>
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin: 0;">Live Calculator Preview</h3>
+              <span style="font-size: 0.75rem; color: #cbd5e1;">How parents see the calculator on admissions.html</span>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: #cbd5e1;">Test Class / Wing</label>
+            <select id="previewGrade" onchange="runFeePreview()" style="width: 100%; padding: 0.6rem; border-radius: 4px; border: none; margin-top: 0.3rem;">
+              <option value="playgroup">Montessori Wing</option>
+              <option value="primary" selected>Primary Wing (Class 1-5)</option>
+              <option value="middle">Middle School (Class 6-8)</option>
+              <option value="matric">Secondary / Matric (Class 9-10)</option>
+              <option value="olevels">Cambridge O-Levels</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: #cbd5e1;">Test Van Transport</label>
+            <select id="previewTransport" onchange="runFeePreview()" style="width: 100%; padding: 0.6rem; border-radius: 4px; border: none; margin-top: 0.3rem;">
+              <option value="none">No Transport</option>
+              <option value="zone1">Zone 1 (Within 3 km)</option>
+              <option value="zone2">Zone 2 (3 to 7 km)</option>
+              <option value="zone3">Zone 3 (7 to 12 km)</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="previewSibling" onchange="runFeePreview()" style="width: 18px; height: 18px;">
+            <label for="previewSibling" style="font-size: 0.85rem; color: #cbd5e1;">Apply Sibling Concession</label>
+          </div>
+
+          <!-- Preview Output Card -->
+          <div style="background: rgba(255,255,255,0.1); padding: 1.25rem; border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 0.4rem;">
+              <span style="color: #cbd5e1;">Admission Fee (One-Time):</span>
+              <strong id="previewOutAdm" style="color: var(--accent-light);">PKR 5,000</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 0.4rem;">
+              <span style="color: #cbd5e1;">Monthly Tuition:</span>
+              <strong id="previewOutTuition">PKR 4,200</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 0.4rem;">
+              <span style="color: #cbd5e1;">Lab Charges:</span>
+              <strong id="previewOutLab">Included</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 0.6rem;">
+              <span style="color: #cbd5e1;">Van Transit:</span>
+              <strong id="previewOutTrans">None</strong>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.25); padding-top: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.95rem; font-weight: 700;">Monthly Payable:</span>
+              <span id="previewOutTotal" style="font-size: 1.4rem; font-weight: 800; color: #34d399;">PKR 4,200</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════
+         TAB 5: SCHOOL INFO & SETTINGS
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="tabSettings" class="admin-tab-pane">
+      <div style="margin-bottom: 1.5rem;">
+        <h1 style="font-size: 1.65rem; font-weight: 800; color: var(--primary);">
+          General School Information &amp; Settings
+        </h1>
+        <p style="font-size: 0.88rem; color: #64748b;">
+          Control campus location address, principal credentials, phone numbers, school timings, and the top marquee banner.
+        </p>
+      </div>
+
+      <div style="max-width: 850px; background: #ffffff; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+        <form id="schoolSettingsForm">
+          <div class="grid-2col">
+            <div class="form-group-custom">
+              <label>School Name</label>
+              <input type="text" id="set_schoolName" required>
+            </div>
+            <div class="form-group-custom">
+              <label>School Tagline</label>
+              <input type="text" id="set_tagline">
+            </div>
+          </div>
+
+          <div class="grid-2col">
+            <div class="form-group-custom">
+              <label>Principal Name</label>
+              <input type="text" id="set_principalName" required>
+            </div>
+            <div class="form-group-custom">
+              <label>Principal Qualification / Degree</label>
+              <input type="text" id="set_principalEdu" placeholder="e.g. BSCS" required>
+            </div>
+          </div>
+
+          <div class="grid-2col">
+            <div class="form-group-custom">
+              <label>Official Phone Number</label>
+              <input type="text" id="set_phone" required>
+            </div>
+            <div class="form-group-custom">
+              <label>WhatsApp Number</label>
+              <input type="text" id="set_whatsapp" required>
+            </div>
+          </div>
+
+          <div class="grid-2col">
+            <div class="form-group-custom">
+              <label>School Timings (Mon - Thu &amp; Sat)</label>
+              <input type="text" id="set_timingsRegular" required>
+            </div>
+            <div class="form-group-custom">
+              <label>Friday Timings</label>
+              <input type="text" id="set_timingsFriday" required>
+            </div>
+          </div>
+
+          <div class="form-group-custom">
+            <label>School Official Email</label>
+            <input type="email" id="set_email" required>
+          </div>
+
+          <div class="form-group-custom">
+            <label>Campus Physical Address</label>
+            <input type="text" id="set_address" required>
+          </div>
+
+          <div class="form-group-custom">
+            <label>Website Top Announcement Ticker Message</label>
+            <textarea id="set_announcementTicker" rows="2" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="padding: 0.8rem 1.75rem;">
+            <i class="fa-solid fa-floppy-disk"></i> Save School Settings
+          </button>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════
+         TAB 6: HOME MAIN PICTURE & CAMPUS SLIDER MANAGER
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="tabBannerSlider" class="admin-tab-pane">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <h1 style="font-size: 1.65rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 0.65rem;">
+            <i class="fa-solid fa-photo-film" style="color: #8b5cf6;"></i> Home Main Picture &amp; Slider Manager
+          </h1>
+          <p style="font-size: 0.88rem; color: #64748b;">
+            Directly update the front campus showcase picture on the Home page and manage rotating highlights slider.
+          </p>
+        </div>
+        <div>
+          <a href="index.html" target="_blank" class="btn btn-outline btn-sm">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Preview Homepage Live
+          </a>
+        </div>
+      </div>
+
+      <!-- SECTION 1: MAIN FRONT SHOWCASE PICTURE -->
+      <div style="background: #ffffff; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); padding: 1.75rem; margin-bottom: 2rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+          <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin: 0;">
+            <i class="fa-solid fa-image" style="color: var(--secondary);"></i> Front Main Showcase Picture (Homepage Front)
+          </h3>
+          <span style="font-size: 0.75rem; background: #e0f2fe; color: #0284c7; padding: 4px 12px; border-radius: 9999px; font-weight: 700;">
+            <i class="fa-solid fa-bolt"></i> Updates Top Showcase on index.html
+          </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2rem; align-items: start;">
+          <!-- Banner Edit Form -->
+          <form id="homeBannerForm">
+            <div class="form-group-custom">
+              <label>Main Image URL *</label>
+              <input type="url" id="bannerImageUrl" required placeholder="https://..." oninput="updateBannerLivePreview()">
+              <small style="color: #64748b; font-size: 0.78rem;">Enter any web URL or choose a 1-click campus preset below:</small>
+            </div>
+
+            <!-- Quick Presets -->
+            <div style="margin-bottom: 1.25rem;">
+              <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--primary); margin-bottom:0.4rem;">
+                <i class="fa-solid fa-wand-magic-sparkles" style="color:#d97706;"></i> Quick Campus Presets (Click to Load):
+              </label>
+              <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+                <button type="button" class="preset-btn" onclick="applyBannerPreset('https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1400&q=80')">
+                  🏫 Modern Campus Front
+                </button>
+                <button type="button" class="preset-btn" onclick="applyBannerPreset('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1400&q=80')">
+                  🏛️ Academic Block &amp; Grounds
+                </button>
+                <button type="button" class="preset-btn" onclick="applyBannerPreset('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1400&q=80')">
+                  🌳 Entrance Gate &amp; Courtyard
+                </button>
+                <button type="button" class="preset-btn" onclick="applyBannerPreset('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1400&q=80')">
+                  📚 Library &amp; Academic Center
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group-custom">
+              <label>Front Showcase Title *</label>
+              <input type="text" id="bannerTitle" required placeholder="Azan Public School Main Campus" oninput="updateBannerLivePreview()">
+            </div>
+
+            <div class="form-group-custom">
+              <label>Front Showcase Subtitle / Description *</label>
+              <textarea id="bannerSubtitle" rows="2" required placeholder="Ladon, Peer Adil, Dera Ghazi Khan — Inspiring Academic Brilliance..." oninput="updateBannerLivePreview()"></textarea>
+            </div>
+
+            <div class="form-group-custom">
+              <label>Badge Text</label>
+              <input type="text" id="bannerBadge" placeholder="Campus Showcase • Peer Adil" oninput="updateBannerLivePreview()">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="padding: 0.75rem 1.6rem;">
+              <i class="fa-solid fa-floppy-disk"></i> Save Main Picture Changes
+            </button>
+          </form>
+
+          <!-- Live Preview Box -->
+          <div>
+            <label style="display:block; font-size:0.82rem; font-weight:700; color:var(--primary); margin-bottom:0.5rem;">
+              <i class="fa-solid fa-eye" style="color:var(--secondary);"></i> Live Front Picture Preview:
+            </label>
+            <div id="bannerPreviewCard" style="position:relative; border-radius:12px; overflow:hidden; border:2px solid #e2e8f0; aspect-ratio: 16/9; box-shadow:0 4px 12px rgba(0,0,0,0.1); background:#0f172a;">
+              <img id="bannerPreviewImg" src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1400&q=80" alt="Preview" style="width:100%; height:100%; object-fit:cover; display:block;">
+              <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(11,37,69,0.95) 0%, rgba(11,37,69,0.5) 50%, rgba(11,37,69,0.1) 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:1.25rem; color:#fff;">
+                <span id="bannerPreviewBadge" style="display:inline-block; font-size:0.7rem; font-weight:700; background:rgba(217,119,6,0.9); padding:2px 8px; border-radius:4px; margin-bottom:0.4rem; align-self:flex-start;">
+                  Campus Showcase • Peer Adil
+                </span>
+                <h4 id="bannerPreviewTitle" style="font-size:1.05rem; font-weight:800; margin:0 0 4px 0; line-height:1.2; color:#fff;">
+                  Azan Public School Main Campus
+                </h4>
+                <p id="bannerPreviewSub" style="font-size:0.75rem; color:#cbd5e1; margin:0; line-height:1.3;">
+                  Ladon, Peer Adil, Dera Ghazi Khan
+                </p>
+              </div>
+            </div>
+            <p style="font-size:0.75rem; color:#64748b; margin-top:0.5rem; text-align:center;">
+              <i class="fa-solid fa-circle-check" style="color:#16a34a;"></i> This is how it displays on the top of the Home page.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: CAMPUS HIGHLIGHTS IMAGE SLIDER -->
+      <div style="background: #ffffff; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); padding: 1.75rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.75rem;">
+          <div>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin: 0;">
+              <i class="fa-solid fa-film" style="color: #8b5cf6;"></i> Campus Highlights Slider Slides
+            </h3>
+            <p style="font-size: 0.8rem; color: #64748b; margin: 2px 0 0 0;">
+              Manage the rotating image carousel positioned right beneath the main campus picture.
+            </p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="openSlideModal()">
+            <i class="fa-solid fa-plus"></i> Add New Slide
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 110px;">Preview</th>
+                <th>Slide Title &amp; Category</th>
+                <th>Description / Caption</th>
+                <th style="width: 100px; text-align: center;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="sliderTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════
+         TAB 7: EXAMINATION RESULTS & STUDENT PORTAL (SUPPLY MANAGEMENT)
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="tabResults" class="admin-tab-pane">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <h1 style="font-size: 1.65rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 0.65rem;">
+            <i class="fa-solid fa-graduation-cap" style="color: #059669;"></i> Examination Results &amp; Student Portal
+          </h1>
+          <p style="font-size: 0.88rem; color: #64748b;">
+            Publish student marksheets, manage passing criteria, schedule supplementary exams, and resolve student supplies.
+          </p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <a href="results.html" target="_blank" class="btn btn-outline btn-sm">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live Result Portal
+          </a>
+          <button class="btn btn-secondary btn-sm" onclick="openAddResultModal()">
+            <i class="fa-solid fa-plus"></i> Upload / Add New Result
+          </button>
+        </div>
+      </div>
+
+      <!-- METRIC CARDS -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        <div class="stat-card-custom">
+          <div class="stat-icon-wrap bg-blue-soft"><i class="fa-solid fa-file-lines"></i></div>
+          <div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: var(--primary);" id="resTotalCount">0</div>
+            <div style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Total Published Results</div>
+          </div>
+        </div>
+
+        <div class="stat-card-custom">
+          <div class="stat-icon-wrap bg-green-soft"><i class="fa-solid fa-circle-check"></i></div>
+          <div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #16a34a;" id="resPassCount">0</div>
+            <div style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Students Passed</div>
+          </div>
+        </div>
+
+        <div class="stat-card-custom">
+          <div class="stat-icon-wrap bg-red-soft"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #dc2626;" id="resSupplyCount">0</div>
+            <div style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Active Supply / Compartment</div>
+          </div>
+        </div>
+
+        <div class="stat-card-custom">
+          <div class="stat-icon-wrap bg-teal-soft"><i class="fa-solid fa-certificate"></i></div>
+          <div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #0f766e;" id="resClearedCount">0</div>
+            <div style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Supplements Cleared</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTROLS & FILTERS -->
+      <div class="db-controls-card">
+        <div class="db-filters">
+          <input type="text" id="resSearchInput" class="db-search-input" placeholder="Search by Roll No, Student Name, Father Name...">
+          <select id="resFilterGrade" class="db-select-filter">
+            <option value="all">All Classes</option>
+            <option value="Class 10">Class 10</option>
+            <option value="Class 9">Class 9</option>
+            <option value="Class 8">Class 8</option>
+            <option value="Class 7">Class 7</option>
+            <option value="Class 6">Class 6</option>
+            <option value="Primary">Primary Wing</option>
+          </select>
+          <select id="resFilterTerm" class="db-select-filter">
+            <option value="all">All Exam Terms</option>
+            <option value="Mid-Term">Mid-Term Examination</option>
+            <option value="Annual">Annual Examination</option>
+            <option value="First Term">First Term Examination</option>
+          </select>
+          <select id="resFilterStatus" class="db-select-filter">
+            <option value="all">All Statuses</option>
+            <option value="Passed">Passed Only</option>
+            <option value="Supply">With Supply Only</option>
+            <option value="Cleared">Supply Cleared</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- RESULTS TABLE -->
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th style="width: 140px;">Roll No / ID</th>
+              <th>Student &amp; Father Name</th>
+              <th>Class &amp; Session</th>
+              <th>Marks &amp; Percentage</th>
+              <th>Grade &amp; Status</th>
+              <th>Supply &amp; Re-Exam Details</th>
+              <th style="width: 140px; text-align: center;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="resultsTableBody">
+            <!-- Populated via admin.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       MODALS
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- MODAL: ADD / EDIT NOTICE -->
+  <div id="noticeModal" class="modal-backdrop">
+    <div class="modal-container" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3 id="noticeModalTitle"><i class="fa-solid fa-bullhorn"></i> Post New Notice</h3>
+        <button class="modal-close-btn" onclick="closeModal('noticeModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="noticeForm">
+          <input type="hidden" id="noticeFormId">
+          
+          <div class="form-group-custom">
+            <label>Notice Title *</label>
+            <input type="text" id="noticeTitle" required placeholder="e.g. Mid-Term Examination Schedule Announced">
+          </div>
+
+          <div class="grid-2col">
+            <div class="form-group-custom">
+              <label>Category *</label>
+              <select id="noticeCategory" required>
+                <option value="Examinations">Examinations</option>
+                <option value="Parent Meeting">Parent Meeting (PTM)</option>
+                <option value="Sports Gala">Sports Gala</option>
+                <option value="Exhibition">Exhibition / STEM</option>
+                <option value="Holiday">Holiday / Vacation</option>
+                <option value="Urgent">Urgent Circular</option>
+                <option value="General">General Notice</option>
+              </select>
+            </div>
+            <div class="form-group-custom">
+              <label>Notice Date *</label>
+              <input type="date" id="noticeDate" required>
+            </div>
+          </div>
+
+          <div class="form-group-custom">
+            <label>Official Reference Number</label>
+            <input type="text" id="noticeRef" placeholder="e.g. Ref # APS/NOT/2026/089">
+          </div>
+
+          <div class="form-group-custom">
+            <label>Notice Detailed Text *</label>
+            <textarea id="noticeDesc" rows="4" required placeholder="Enter complete circular information for parents and students..."></textarea>
+          </div>
+
+          <div style="margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.6rem;">
+            <input type="checkbox" id="noticePinned" style="width: 18px; height: 18px;">
+            <label for="noticePinned" style="font-size: 0.88rem; font-weight: 600; color: var(--primary);">
+              Pin this notice to top announcement ticker banner
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            <i class="fa-solid fa-paper-plane"></i> Publish Notice
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: ADD / EDIT EVENT -->
+  <div id="eventModal" class="modal-backdrop">
+    <div class="modal-container" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3 id="eventModalTitle"><i class="fa-solid fa-calendar-plus"></i> Add School Event</h3>
+        <button class="modal-close-btn" onclick="closeModal('eventModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="eventForm">
+          <input type="hidden" id="eventFormId">
+          
+          <div class="form-group-custom">
+            <label>Event Title *</label>
+            <input type="text" id="eventTitle" required placeholder="e.g. Annual Inter-School Sports Gala 2026">
+          </div>
+
+          <div class="grid-2col">
+            <div class="form-group-custom">
+              <label>Event Category *</label>
+              <select id="eventCategory" required>
+                <option value="Sports">Sports &amp; Athletics</option>
+                <option value="Academic">Academic &amp; PTM</option>
+                <option value="Exhibition">Exhibition / STEM</option>
+                <option value="Ceremony">Ceremony &amp; Prize Distribution</option>
+                <option value="Celebration">Cultural / National Day</option>
+              </select>
+            </div>
+            <div class="form-group-custom">
+              <label>Event Date *</label>
+              <input type="date" id="eventDate" required>
+            </div>
+          </div>
+
+          <div class="grid-2col">
+            <div class="form-group-custom">
+              <label>Time Duration</label>
+              <input type="text" id="eventTime" placeholder="e.g. 09:00 AM - 02:00 PM">
+            </div>
+            <div class="form-group-custom">
+              <label>Event Status</label>
+              <select id="eventStatus">
+                <option value="Upcoming">Upcoming</option>
+                <option value="Ongoing">Ongoing</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group-custom">
+            <label>Event Venue / Location</label>
+            <input type="text" id="eventVenue" placeholder="e.g. Azan Public School Main Sports Ground, Peer Adil">
+          </div>
+
+          <div class="form-group-custom">
+            <label>Event Description</label>
+            <textarea id="eventDesc" rows="3" placeholder="Enter sports tournaments, activities, participating grades..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            <i class="fa-solid fa-calendar-check"></i> Save Event
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: VIEW FULL CANDIDATE DETAILS -->
+  <div id="detailsModal" class="modal-backdrop">
+    <div class="modal-container" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 id="modalStudentName"><i class="fa-solid fa-id-card"></i> Candidate Application Details</h3>
+        <button class="modal-close-btn" onclick="closeModal('detailsModal')">&times;</button>
+      </div>
+      <div class="modal-body" id="modalDetailsContent">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: ADD APPLICATION MANUALLY -->
+  <div id="addManualModal" class="modal-backdrop">
+    <div class="modal-container" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-user-plus"></i> Record New Application</h3>
+        <button class="modal-close-btn" onclick="closeModal('addManualModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="manualAddForm">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem;">Student Name *</label>
+              <input type="text" name="studentName" required style="width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem;">Class Applying For *</label>
+              <select name="grade" required style="width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff;">
+                <option value="Playgroup">Playgroup</option>
+                <option value="Nursery">Nursery</option>
+                <option value="Prep (KG)">Prep (KG)</option>
+                <option value="Class 1">Class 1</option>
+                <option value="Class 2">Class 2</option>
+                <option value="Class 3">Class 3</option>
+                <option value="Class 4">Class 4</option>
+                <option value="Class 5">Class 5</option>
+                <option value="Class 6">Class 6</option>
+                <option value="Class 7">Class 7</option>
+                <option value="Class 8">Class 8</option>
+                <option value="Class 9 (Matric Science)">Class 9 (Matric Science)</option>
+                <option value="Class 10 (Matriculation)">Class 10 (Matriculation)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem;">Father's Name *</label>
+              <input type="text" name="fatherName" required style="width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem;">Mobile / WhatsApp *</label>
+              <input type="tel" name="phone" placeholder="0307-8208934" required style="width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem;">Gender</label>
+              <select name="gender" style="width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff;">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem;">Transport Required?</label>
+              <select name="transport" style="width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff;">
+                <option value="No">No (Self Pick & Drop)</option>
+                <option value="Yes">Yes (School Van)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1.25rem;">
+            <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem;">Address</label>
+            <input type="text" name="address" placeholder="Ladon, Peer Adil, Dera Ghazi Khan" style="width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 4px;">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            <i class="fa-solid fa-save"></i> Save into Database
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT SLIDE -->
+  <div id="slideModal" class="modal-backdrop">
+    <div class="modal-container" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 id="slideModalTitle"><i class="fa-solid fa-image"></i> Add Campus Slide</h3>
+        <button class="modal-close-btn" onclick="closeModal('slideModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="slideForm">
+          <div class="form-group-custom">
+            <label>Slide Title *</label>
+            <input type="text" id="slideTitle" required placeholder="e.g. Annual Sports Gala &amp; Races">
+          </div>
+
+          <div class="grid-2col">
+            <div class="form-group-custom">
+              <label>Tag / Category *</label>
+              <select id="slideTag" required>
+                <option value="Sports Gala">Sports Gala &amp; Athletics</option>
+                <option value="Science Labs">Science Labs &amp; Experiments</option>
+                <option value="Prize Distribution">Prize Distribution Ceremony</option>
+                <option value="Computer Lab">Computer Lab &amp; Coding</option>
+                <option value="Montessori Wing">Montessori &amp; Early Years</option>
+                <option value="Academic Excellence">Academic Excellence</option>
+                <option value="Campus Life">Campus Life &amp; Activities</option>
+              </select>
+            </div>
+            <div class="form-group-custom">
+              <label>Quick Image Preset</label>
+              <select id="slidePresetSelect" onchange="applySlideModalPreset(this.value)">
+                <option value="">-- Choose Preset or Enter URL --</option>
+                <option value="https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=1200&q=80">Sports &amp; Athletics Field</option>
+                <option value="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=80">Science Laboratory</option>
+                <option value="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80">Prize Distribution Ceremony</option>
+                <option value="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80">IT &amp; Computer Science Lab</option>
+                <option value="https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1200&q=80">Montessori Activity Zone</option>
+                <option value="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1200&q=80">Classroom Teaching</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group-custom">
+            <label>Image URL *</label>
+            <input type="url" id="slideImageUrl" required placeholder="https://images.unsplash.com/..." oninput="updateSlideModalPreview()">
+          </div>
+
+          <!-- Slide modal image preview -->
+          <div style="margin-bottom: 1.25rem; border-radius: 8px; overflow: hidden; max-height: 160px; background: #0f172a; text-align: center; border: 1px solid #cbd5e1;">
+            <img id="slideModalPreviewImg" src="https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=1200&q=80" alt="Slide Preview" style="width: 100%; height: 160px; object-fit: cover; display: block;">
+          </div>
+
+          <div class="form-group-custom">
+            <label>Caption / Short Description *</label>
+            <textarea id="slideCaption" rows="2" required placeholder="Brief description of the activity shown in slide..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            <i class="fa-solid fa-plus-circle"></i> Add Slide to Slider
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: UPLOAD / EDIT STUDENT RESULT & SUPPLY -->
+  <div id="resultModal" class="modal-backdrop">
+    <div class="modal-container" style="max-width: 760px; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-header">
+        <h3 id="resultModalTitle"><i class="fa-solid fa-graduation-cap"></i> Upload Student Result &amp; Marksheet</h3>
+        <button class="modal-close-btn" onclick="closeModal('resultModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="resultForm">
+          <input type="hidden" id="resFormId">
+
+          <!-- Candidate Info -->
+          <div class="grid-2col">
+            <div class="form-group-custom">
+              <label>Student Roll No / ID *</label>
+              <input type="text" id="resRollNo" required placeholder="e.g. APS-2026-101">
+            </div>
+            <div class="form-group-custom">
+              <label>Student Full Name *</label>
+              <input type="text" id="resStudentName" required placeholder="e.g. Muhammad Hamza">
+            </div>
+          </div>
+
+          <div class="grid-2col">
+            <div class="form-group-custom">
+              <label>Father's Name *</label>
+              <input type="text" id="resFatherName" required placeholder="e.g. Tariq Mehmood">
+            </div>
+            <div class="form-group-custom">
+              <label>Class / Grade *</label>
+              <select id="resGrade" required>
+                <option value="Class 10 (Matriculation)">Class 10 (Matriculation)</option>
+                <option value="Class 9 (Matric Science)">Class 9 (Matric Science)</option>
+                <option value="Class 9 (Matric Computer)">Class 9 (Matric Computer)</option>
+                <option value="Class 8 (Middle Wing)">Class 8 (Middle Wing)</option>
+                <option value="Class 7 (Middle Wing)">Class 7 (Middle Wing)</option>
+                <option value="Class 6 (Middle Wing)">Class 6 (Middle Wing)</option>
+                <option value="Class 5 (Primary Wing)">Class 5 (Primary Wing)</option>
+                <option value="Class 4 (Primary Wing)">Class 4 (Primary Wing)</option>
+                <option value="Class 3 (Primary Wing)">Class 3 (Primary Wing)</option>
+                <option value="Class 2 (Primary Wing)">Class 2 (Primary Wing)</option>
+                <option value="Class 1 (Primary Wing)">Class 1 (Primary Wing)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-2col">
+            <div class="form-group-custom">
+              <label>Examination Session / Term *</label>
+              <select id="resExamTerm" required>
+                <option value="Mid-Term Examination 2026">Mid-Term Examination 2026</option>
+                <option value="Annual Examination 2026">Annual Examination 2026</option>
+                <option value="First Term Examination 2026">First Term Examination 2026</option>
+                <option value="Supplementary Re-Examination 2026">Supplementary Re-Examination 2026</option>
+              </select>
+            </div>
+            <div class="form-group-custom">
+              <label>Issue Date</label>
+              <input type="text" id="resDateIssued" placeholder="e.g. 02 Nov 2026">
+            </div>
+          </div>
+
+          <!-- Subject Marks Table -->
+          <div style="margin-top: 1rem; margin-bottom: 1.25rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.6rem;">
+              <label style="font-size:0.85rem; font-weight:700; color:var(--primary); margin:0;">
+                <i class="fa-solid fa-list-check"></i> Subject-Wise Marks &amp; Passing Criteria
+              </label>
+              <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                <span style="font-size:0.75rem; color:#64748b; align-self:center;">Auto-fill:</span>
+                <button type="button" class="preset-btn" onclick="applySubjectPreset('matric_sci')">Matric Science</button>
+                <button type="button" class="preset-btn" onclick="applySubjectPreset('middle')">Middle Wing</button>
+                <button type="button" class="preset-btn" onclick="applySubjectPreset('primary')">Primary</button>
+              </div>
+            </div>
+
+            <div style="background:#f8fafc; border:1px solid var(--border-color); border-radius:8px; padding:0.75rem; max-height:260px; overflow-y:auto;">
+              <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                <thead>
+                  <tr style="text-align:left; color:#475569; border-bottom:1px solid #cbd5e1;">
+                    <th style="padding:4px 6px;">Subject Name</th>
+                    <th style="padding:4px 6px; width:75px;">Total</th>
+                    <th style="padding:4px 6px; width:75px;">Pass</th>
+                    <th style="padding:4px 6px; width:85px;">Obtained</th>
+                    <th style="padding:4px 6px; width:70px; text-align:center;">Status</th>
+                    <th style="padding:4px 6px; width:40px;"></th>
+                  </tr>
+                </thead>
+                <tbody id="subjectRowsContainer">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+              <button type="button" class="btn btn-outline btn-sm" onclick="addSubjectRow()" style="margin-top:0.6rem; padding:4px 10px; font-size:0.78rem;">
+                <i class="fa-solid fa-plus"></i> Add Another Subject
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Score Preview Card -->
+          <div id="modalScorePreview" style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:0.75rem 1rem; margin-bottom:1.25rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+            <div>
+              <span style="font-size:0.78rem; color:#15803d; font-weight:700;">TOTAL MARKS:</span>
+              <strong id="previewTotalScore" style="color:#166534; font-size:1.1rem; margin-left:4px;">0 / 0</strong>
+            </div>
+            <div>
+              <span style="font-size:0.78rem; color:#15803d; font-weight:700;">PERCENTAGE:</span>
+              <strong id="previewPercentage" style="color:#166534; font-size:1.1rem; margin-left:4px;">0%</strong>
+            </div>
+            <div>
+              <span style="font-size:0.78rem; color:#15803d; font-weight:700;">GRADE:</span>
+              <strong id="previewGrade" style="color:#166534; font-size:1.1rem; margin-left:4px;">N/A</strong>
+            </div>
+            <div>
+              <span id="previewStatusBadge" class="status-badge status-Passed">PASSED</span>
+            </div>
+          </div>
+
+          <!-- SUPPLY / SUPPLEMENTARY MANAGEMENT CARD -->
+          <div id="supplyManagementCard" style="background:#fff1f2; border:1.5px solid #fecaca; border-radius:8px; padding:1.1rem; margin-bottom:1.25rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; flex-wrap:wrap; gap:0.5rem;">
+              <h4 style="color:#b91c1c; font-size:0.95rem; font-weight:800; margin:0; display:flex; align-items:center; gap:0.4rem;">
+                <i class="fa-solid fa-triangle-exclamation"></i> Supplementary / Supply Examination Management
+              </h4>
+              <span id="supplyDetectedLabel" style="font-size:0.75rem; background:#fee2e2; color:#b91c1c; font-weight:700; padding:2px 8px; border-radius:4px; border:1px solid #fca5a5;">
+                No Supply Detected
+              </span>
+            </div>
+            <p style="font-size:0.78rem; color:#64748b; margin-bottom:0.75rem;">
+              If a student fails in 1 or more subjects, manage their supplementary examination schedule, fees, and clearance status here.
+            </p>
+
+            <div class="grid-2col">
+              <div class="form-group-custom" style="margin-bottom:0.75rem;">
+                <label style="color:#991b1b;">Supplementary Exam Date</label>
+                <input type="text" id="supplyExamDate" placeholder="e.g. 15 Dec 2026">
+              </div>
+              <div class="form-group-custom" style="margin-bottom:0.75rem;">
+                <label style="color:#991b1b;">Clearance Status</label>
+                <select id="supplyClearanceStatus">
+                  <option value="Pending Re-Exam">Pending Re-Exam</option>
+                  <option value="Re-Exam Scheduled">Re-Exam Scheduled &amp; Fee Paid</option>
+                  <option value="Cleared / Passed in Supply Exam">Cleared / Passed in Supply Exam</option>
+                  <option value="Failed in Re-Exam">Failed in Re-Exam</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid-2col">
+              <div class="form-group-custom" style="margin-bottom:0.75rem;">
+                <label style="color:#991b1b;">Supplementary Fee Status</label>
+                <select id="supplyFeeStatus">
+                  <option value="Unpaid">Unpaid</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Exempted">Exempted</option>
+                </select>
+              </div>
+              <div class="form-group-custom" style="margin-bottom:0.75rem;">
+                <label style="color:#991b1b;">Cleared Subject Update (Optional)</label>
+                <input type="text" id="supplyClearedSubject" placeholder="e.g. Mathematics">
+              </div>
+            </div>
+
+            <div class="form-group-custom" style="margin-bottom:0;">
+              <label style="color:#991b1b;">Supplementary Exam Office Remarks / Instructions</label>
+              <textarea id="supplyRemarks" rows="2" placeholder="Instructions for student regarding re-examination or clearance notes..."></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.8rem; font-size: 0.95rem;">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Save &amp; Publish Result to Portal
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: OFFICIAL MARKSHEET / RESULT CARD PREVIEW & PRINT -->
+  <div id="marksheetModal" class="modal-backdrop">
+    <div class="modal-container" style="max-width: 820px; max-height: 92vh; overflow-y: auto;">
+      <div class="modal-header" style="background:var(--primary); color:#fff;">
+        <h3 style="display:flex; align-items:center; gap:0.5rem; margin:0;">
+          <i class="fa-solid fa-certificate" style="color:var(--accent);"></i>
+          Detailed Marks Certificate (DMC) - Azan Public School
+        </h3>
+        <button class="modal-close-btn" onclick="closeModal('marksheetModal')">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 1.5rem;">
+        <!-- Printable Result Card Area -->
+        <div id="marksheetModalContent">
+          <!-- Rendered via JS -->
+        </div>
+
+        <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
+          <button type="button" class="btn btn-outline" onclick="closeModal('marksheetModal')">Close</button>
+          <button type="button" class="btn btn-primary" onclick="printMarksheetFromModal()">
+            <i class="fa-solid fa-print"></i> Print Official Result Card
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SCRIPTS -->
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
