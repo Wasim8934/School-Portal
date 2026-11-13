@@ -58,12 +58,19 @@ A modern, responsive, and complete educational institution website built for **A
    - **Front Showcase Main Picture**: Change the main front campus picture displayed at the very top of `index.html`. Choose from 1-click campus presets or paste any custom high-resolution image URL. Edit Title, Subtitle, and Badge text with live real-time preview card.
    - **Interactive Highlights Slider**: Add, manage, and delete slides for sports galas, science labs, prize distribution ceremonies, computer labs, and Montessori activities. Instant live synchronization with the home page rotating carousel.
 
+7. 📊 **Examination Results & Supplementary Supply Manager (Tab 7)**:
+   - **Publish Results & Marksheets**: Upload student exam results across all classes (Playgroup to Matric) with roll numbers, exam terms, and subject-wise marks breakdown.
+   - **Supply / Compartment Management**: Automatic detection of failing subjects, supplementary exam date scheduling, fee clearance tracking (`Pending`, `Scheduled`, `Cleared`), and clearance status management.
+   - **Printable Official DMC**: Generate and print official Azan Public School Detailed Marks Certificates with school logo, principal credentials, and verification seal.
+   - **Public Student Portal (`results.html`)**: Direct public verification portal where students can enter their Roll Number to view and print their result card and supply notices.
+
 ---
 
 ## 🌟 Public Website Features
 
 1. **Multi-Page Architecture**:
    - `index.html`: **Front Main Campus Picture Showcase** with location & principal credentials, **Interactive Campus Highlights Carousel / Slider** (with auto-play, arrow controls, and pause-on-hover), Hero banner, quick admission inquiry, principal's message, core pillars, academic wing cards, dynamic real-time notice board, upcoming events widget, testimonials, and footer.
+   - `results.html`: **Online Student Result Portal & DMC Verification** with Student ID search, quick test roll numbers, subject marks, grade calculation, and supply examination notices.
    - `about.html`: School history, vision & mission, core values, leadership by Wasim Fida (BSCS), and campus facilities.
    - `academics.html`: Detailed wings (Montessori, Primary, Middle, Secondary Matric & O-Levels), curriculum subjects, and co-curricular societies.
    - `admissions.html`: Step-by-step admission procedure, required documents checklist, **interactive online admission form** with printable registration slip generation, and **dynamic fee calculator** powered by the admin database.

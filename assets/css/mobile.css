@@ -1,0 +1,937 @@
+/* ================================================================
+   AZAN PUBLIC SCHOOL - MOBILE RESPONSIVE STYLESHEET
+   Full mobile-friendly styles for all screen sizes
+   Breakpoints:
+     - 992px: Tablet landscape / small desktop
+     - 768px: Tablet portrait / large phone
+     - 576px: Phone landscape
+     - 480px: Phone portrait
+     - 360px: Small phones (old Android)
+================================================================ */
+
+/* ===== GLOBAL TOUCH & MOBILE IMPROVEMENTS ===== */
+html {
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+
+/* Ensure touch targets are at least 44px */
+a, button, input[type="submit"], input[type="button"],
+select, .btn, .filter-btn, .nav-link-item {
+  min-height: 44px;
+}
+
+/* Better tap highlight */
+* {
+  -webkit-tap-highlight-color: rgba(15, 130, 94, 0.15);
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* ================================================================
+   TOP BAR - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  .top-bar {
+    font-size: 0.78rem;
+    padding: 0.4rem 0;
+  }
+  .top-bar-inner {
+    flex-direction: column;
+    gap: 0.35rem;
+    text-align: center;
+  }
+  .top-contact-info {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .top-contact-info a,
+  .top-contact-info span {
+    font-size: 0.75rem;
+  }
+  /* Hide clock info on very small screens */
+  .top-contact-info span:last-child {
+    display: none;
+  }
+  .top-announcement-ticker {
+    justify-content: center;
+  }
+}
+
+/* ================================================================
+   HEADER / NAVBAR - Mobile
+================================================================ */
+@media (max-width: 992px) {
+  .header-wrapper {
+    padding: 0.6rem 0;
+  }
+  .logo-text h1 {
+    font-size: 1.1rem;
+  }
+  .logo-text span {
+    font-size: 0.65rem;
+  }
+  .logo-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-text h1 {
+    font-size: 0.95rem;
+  }
+  .logo-text span {
+    display: none;
+  }
+}
+
+/* ================================================================
+   HERO SECTION - Mobile
+================================================================ */
+@media (max-width: 992px) {
+  .hero-section {
+    padding: 3.5rem 0 4rem 0;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  .hero-content h1 {
+    font-size: 2.4rem;
+  }
+  .hero-subtitle {
+    margin: 0 auto 1.5rem auto;
+    font-size: 1.05rem;
+  }
+  .hero-cta-group {
+    justify-content: center;
+  }
+  .hero-trust-badges {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .hero-card {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 1.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 2.5rem 0 3rem 0;
+  }
+  .hero-content h1 {
+    font-size: 1.9rem;
+    letter-spacing: -0.3px;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+  .hero-badge {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.85rem;
+  }
+  .hero-cta-group {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-cta-group .btn {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+  .hero-trust-badges {
+    gap: 0.75rem;
+  }
+  .trust-item {
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 1.6rem;
+  }
+  .hero-card {
+    padding: 1.25rem;
+  }
+  .hero-card-header h3 {
+    font-size: 1.1rem;
+  }
+}
+
+/* ================================================================
+   STATS BANNER - Mobile
+================================================================ */
+@media (max-width: 992px) {
+  .stats-banner {
+    margin-top: -1.5rem;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .stat-card {
+    border-right: none;
+    border-bottom: 1px solid var(--border-light);
+    padding: 0.75rem;
+  }
+  .stat-card:nth-child(2n) {
+    border-right: none;
+  }
+  .stat-card:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .stat-number {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+  }
+}
+
+/* ================================================================
+   SECTION HEADINGS - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  .section {
+    padding: 3rem 0;
+  }
+  .section-title {
+    font-size: 1.7rem;
+  }
+  .section-header {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 2.25rem 0;
+  }
+  .section-title {
+    font-size: 1.45rem;
+  }
+  .section-subtitle {
+    font-size: 0.88rem;
+  }
+}
+
+/* ================================================================
+   PRINCIPAL MESSAGE - Mobile
+================================================================ */
+@media (max-width: 992px) {
+  .principal-section-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  .principal-photo-wrapper {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .principal-photo {
+    height: 280px;
+  }
+  .principal-quote-badge {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -18px;
+    white-space: nowrap;
+  }
+  .principal-content h3 {
+    font-size: 1.5rem;
+  }
+  .principal-signature {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .principal-content h3 {
+    font-size: 1.3rem;
+  }
+  .principal-content p {
+    font-size: 0.88rem;
+  }
+  .principal-quote-badge {
+    font-size: 0.8rem;
+    padding: 0.65rem 1rem;
+  }
+}
+
+/* ================================================================
+   FEATURES / WHY CHOOSE US - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .feature-card {
+    padding: 1.5rem;
+  }
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.3rem;
+  }
+  .feature-card h3 {
+    font-size: 1.1rem;
+  }
+}
+
+/* ================================================================
+   WING CARDS (ACADEMIC PROGRAMS) - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  .wing-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .wing-header {
+    padding: 1.25rem;
+  }
+  .wing-header h3 {
+    font-size: 1.1rem;
+  }
+  .wing-body {
+    padding: 1.25rem;
+  }
+}
+
+/* ================================================================
+   NOTICE BOARD & EVENTS - Mobile
+================================================================ */
+@media (max-width: 992px) {
+  .notice-events-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .notice-box {
+    padding: 1.25rem;
+  }
+  .notice-item {
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+  .notice-date {
+    min-width: 48px;
+    height: 48px;
+  }
+  .notice-info h4 {
+    font-size: 0.88rem;
+  }
+  .notice-info p {
+    font-size: 0.78rem;
+  }
+}
+
+/* ================================================================
+   GALLERY - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .gallery-card {
+    height: 170px;
+  }
+  /* Always show overlay on mobile (no hover on touch) */
+  .gallery-overlay {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(11,37,69,0.75) 0%, transparent 60%);
+    padding: 0.75rem;
+  }
+  .gallery-overlay h4 {
+    font-size: 0.85rem;
+  }
+  .gallery-overlay span {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+  .gallery-card {
+    height: 200px;
+  }
+}
+
+/* ================================================================
+   GALLERY FILTER BAR - Mobile
+================================================================ */
+@media (max-width: 576px) {
+  .gallery-filter-bar {
+    gap: 0.4rem;
+  }
+  .filter-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.78rem;
+  }
+}
+
+/* ================================================================
+   TESTIMONIALS - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .testimonial-card {
+    padding: 1.25rem;
+  }
+  .testimonial-text {
+    font-size: 0.88rem;
+  }
+}
+
+/* ================================================================
+   CTA BANNER - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  .cta-banner {
+    padding: 2.5rem 1.5rem;
+    margin-bottom: -2rem;
+  }
+  .cta-banner h2 {
+    font-size: 1.6rem;
+  }
+  .cta-banner p {
+    font-size: 0.9rem;
+  }
+  .cta-banner .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  .cta-banner .cta-buttons .btn {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+  }
+}
+
+/* ================================================================
+   FOOTER - Mobile
+================================================================ */
+@media (max-width: 992px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .main-footer {
+    padding: 4rem 0 2rem 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-footer {
+    padding: 3rem 0 2rem 0;
+  }
+  .footer-col h4 {
+    font-size: 1rem;
+    margin-bottom: 0.85rem;
+  }
+  .social-links {
+    justify-content: flex-start;
+  }
+}
+
+/* ================================================================
+   PAGE HERO (INNER PAGES BANNER) - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  .page-hero {
+    padding: 2.25rem 0;
+  }
+  .page-hero h1 {
+    font-size: 1.75rem;
+  }
+  .breadcrumb-trail {
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-hero h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* ================================================================
+   MODALS - Mobile (Full Screen on small devices)
+================================================================ */
+@media (max-width: 576px) {
+  .modal-backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .modal-container {
+    max-width: 100%;
+    width: 100%;
+    max-height: 92vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  .modal-header {
+    padding: 1rem 1.25rem;
+  }
+  .modal-header h3 {
+    font-size: 1.1rem;
+  }
+  .modal-body {
+    padding: 1.25rem;
+  }
+}
+
+/* ================================================================
+   TOAST NOTIFICATIONS - Mobile
+================================================================ */
+@media (max-width: 576px) {
+  .toast-container {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 0 1rem 1rem 1rem;
+  }
+  .toast-msg {
+    width: 100%;
+    font-size: 0.88rem;
+  }
+}
+
+/* ================================================================
+   BUTTONS - Mobile
+================================================================ */
+@media (max-width: 576px) {
+  .btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+  .btn {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.88rem;
+  }
+}
+
+/* ================================================================
+   ADMISSION FORM (admissions.html) - Mobile
+================================================================ */
+@media (max-width: 992px) {
+  /* Fee Calculator + Docs Grid */
+  div[style*="grid-template-columns: 1fr 1fr"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Admission steps / Process grid */
+  div[style*="repeat(auto-fit, minmax(240px, 1fr))"] {
+    grid-template-columns: 1fr !important;
+  }
+  /* Form sections */
+  #onlineAdmissionForm div[style*="grid"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Admission form inputs */
+  #onlineAdmissionForm input,
+  #onlineAdmissionForm select,
+  #onlineAdmissionForm textarea {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+    padding: 0.7rem 0.85rem !important;
+  }
+  /* Quick inquiry form in hero */
+  .quick-inquiry-form input,
+  .quick-inquiry-form select {
+    font-size: 16px !important;
+  }
+}
+
+/* ================================================================
+   FEE TABLE - Mobile Scrollable
+================================================================ */
+@media (max-width: 768px) {
+  .fee-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .custom-table {
+    min-width: 480px;
+  }
+  .custom-table th,
+  .custom-table td {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.82rem;
+  }
+}
+
+/* ================================================================
+   NOTICES PAGE (notices.html) - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  .notice-box {
+    padding: 1.25rem;
+  }
+}
+
+/* ================================================================
+   RESULTS PAGE (results.html) - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  /* Any results table */
+  .custom-table {
+    min-width: 500px;
+  }
+}
+
+/* ================================================================
+   ABOUT PAGE (about.html) - Mobile
+================================================================ */
+@media (max-width: 992px) {
+  /* Staff/team grid */
+  .wing-cards-grid,
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+/* ================================================================
+   CONTACT PAGE (contact.html) - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  /* Contact grid */
+  div[style*="grid-template-columns: 1.2fr"] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
+/* ================================================================
+   CAMPUS IMAGE SLIDER (index.html) - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  .front-main-img {
+    height: 260px;
+  }
+  .front-picture-title {
+    font-size: 1.3rem;
+  }
+  .front-picture-sub {
+    font-size: 0.88rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .front-picture-overlay {
+    padding: 1.5rem 1rem;
+  }
+  .front-picture-meta {
+    gap: 0.75rem;
+    font-size: 0.78rem;
+  }
+  .slider-container-card {
+    height: 280px;
+  }
+  .slide-title {
+    font-size: 1.2rem;
+  }
+  .slide-desc {
+    font-size: 0.82rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .campus-slide-caption {
+    padding: 1.5rem 1rem 1.25rem 1rem;
+  }
+  .slider-arrow-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+  .slider-arrow-prev { left: 0.5rem; }
+  .slider-arrow-next { right: 0.5rem; }
+  .slider-dots-box {
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .front-main-img {
+    height: 220px;
+  }
+  .front-picture-badge {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.65rem;
+  }
+  .slider-container-card {
+    height: 240px;
+  }
+}
+
+/* ================================================================
+   FLOATING WHATSAPP BUTTON - Mobile
+================================================================ */
+@media (max-width: 576px) {
+  .floating-whatsapp {
+    bottom: 18px;
+    right: 18px;
+    width: 52px;
+    height: 52px;
+    font-size: 26px;
+  }
+  .floating-whatsapp .whatsapp-tooltip {
+    display: none; /* Hide tooltip on mobile - no hover */
+  }
+}
+
+/* ================================================================
+   ADMIN DASHBOARD - Mobile
+================================================================ */
+@media (max-width: 992px) {
+  /* Admin navbar wrap */
+  .admin-nav-wrapper {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Admin table scrollable */
+  .admin-table-wrapper,
+  div[style*="overflow-x: auto"] {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Make admin stats wrap */
+  .admin-stats-row {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Admin tab bar scrollable */
+  .admin-tab-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+  }
+  .admin-tab-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .admin-tab-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 0.82rem;
+    padding: 0.5rem 0.9rem !important;
+  }
+
+  /* Admin content padding */
+  .admin-content-area,
+  div[style*="padding: 2rem"] {
+    padding: 1.25rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Admin header text */
+  .admin-nav-wrapper h2,
+  .admin-navbar h2 {
+    font-size: 1rem !important;
+  }
+
+  /* Stat cards full width */
+  .admin-stat-card {
+    width: 100% !important;
+    min-width: unset !important;
+  }
+
+  /* Admin table font size */
+  .admin-table th,
+  .admin-table td,
+  table th,
+  table td {
+    font-size: 0.78rem !important;
+    padding: 0.6rem 0.75rem !important;
+  }
+
+  /* Form inside admin */
+  .admin-modal-body input,
+  .admin-modal-body select,
+  .admin-modal-body textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ================================================================
+   ADMIN LOGIN PAGE - Mobile
+================================================================ */
+@media (max-width: 576px) {
+  .login-card,
+  div[style*="max-width: 460px"],
+  div[style*="max-width: 480px"] {
+    padding: 1.75rem 1.25rem !important;
+    margin: 1rem !important;
+    max-width: calc(100vw - 2rem) !important;
+  }
+  .login-card input {
+    font-size: 16px !important;
+  }
+}
+
+/* ================================================================
+   CONTAINER - Tighter padding on small screens
+================================================================ */
+@media (max-width: 480px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  .hero-content h1 {
+    font-size: 1.4rem;
+  }
+  .section-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* ================================================================
+   PRINT SLIP / REGISTRATION SLIP - Mobile
+================================================================ */
+@media (max-width: 576px) {
+  .print-slip-modal .modal-body {
+    padding: 1rem;
+  }
+  .print-slip table {
+    font-size: 0.8rem;
+  }
+  .print-slip th,
+  .print-slip td {
+    padding: 0.5rem 0.6rem;
+    display: block;
+    width: 100%;
+  }
+  .print-slip tr {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #e2e8f0;
+  }
+}
+
+/* ================================================================
+   ACADEMICS PAGE - Mobile
+================================================================ */
+@media (max-width: 768px) {
+  /* Subject / curriculum grids */
+  div[style*="grid-template-columns: repeat(2"],
+  div[style*="grid-template-columns: repeat(3"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ================================================================
+   HOVER EFFECTS → ACTIVE/FOCUS ON TOUCH DEVICES
+   (Cards that use :hover - make them clickable on mobile)
+================================================================ */
+@media (hover: none) and (pointer: coarse) {
+  /* Disable translateY hover on cards (causes layout jump on touch) */
+  .feature-card:hover,
+  .wing-card:hover,
+  .testimonial-card:hover {
+    transform: none;
+  }
+
+  /* Gallery overlay always visible on touch */
+  .gallery-overlay {
+    opacity: 0.85;
+  }
+
+  /* Notice item hover */
+  .notice-item:hover {
+    transform: none;
+  }
+  .footer-links li a:hover {
+    transform: none;
+  }
+  .dropdown-item:hover {
+    transform: none;
+  }
+}
+
+/* ================================================================
+   UTILITY - Mobile hidden/visible helpers
+================================================================ */
+@media (max-width: 768px) {
+  .hide-mobile { display: none !important; }
+}
+@media (min-width: 769px) {
+  .show-mobile { display: none !important; }
+}
+
+/* ================================================================
+   SMOOTH SCROLL OFFSET for sticky header on mobile
+================================================================ */
+@media (max-width: 992px) {
+  [id] {
+    scroll-margin-top: 80px;
+  }
+}

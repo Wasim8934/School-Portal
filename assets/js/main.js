@@ -643,35 +643,53 @@ function openPortalModal() {
     modal.id = 'portal-modal';
     modal.className = 'modal-backdrop';
     modal.innerHTML = `
-      <div class="modal-container" style="max-width: 440px;">
-        <div class="modal-header" style="background: var(--primary);">
-          <h3><i class="fa-solid fa-user-graduate"></i> Student & Parent Portal</h3>
+      <div class="modal-container" style="max-width: 480px;">
+        <div class="modal-header" style="background: var(--primary); color: #fff;">
+          <h3 style="margin:0; font-size:1.15rem; display:flex; align-items:center; gap:0.5rem;">
+            <i class="fa-solid fa-graduation-cap" style="color:var(--accent);"></i> Student Examination &amp; Result Portal
+          </h3>
           <button class="modal-close-btn" onclick="closeModal('portal-modal')">&times;</button>
         </div>
-        <div class="modal-body">
-          <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.25rem;">Log in to access student attendance, marks sheets, fee vouchers, and teacher notices.</p>
-          <form id="portalLoginForm">
+        <div class="modal-body" style="padding:1.5rem;">
+          <p style="font-size: 0.86rem; color: #64748b; margin-bottom: 1.25rem; line-height:1.5;">
+            Enter your official Student ID / Roll Number below to view your Detailed Marks Certificate (DMC), subject grades, and supplementary exam status.
+          </p>
+          <form id="portalQuickSearchForm">
             <div style="margin-bottom: 1rem;">
-              <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem;">Student ID / Roll No</label>
-              <input type="text" placeholder="e.g. APS-2026-1042" required style="width: 100%; padding: 0.7rem; border: 1px solid #cbd5e1; border-radius: 6px;">
+              <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--primary);">Student ID / Roll No *</label>
+              <input type="text" id="quickPortalRoll" placeholder="e.g. APS-2026-101" required style="width: 100%; padding: 0.75rem 1rem; border: 2px solid #cbd5e1; border-radius: 6px; font-weight: 700; text-transform: uppercase;">
             </div>
-            <div style="margin-bottom: 1.25rem;">
-              <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem;">Password</label>
-              <input type="password" placeholder="••••••••" required style="width: 100%; padding: 0.7rem; border: 1px solid #cbd5e1; border-radius: 6px;">
+
+            <!-- Demo IDs -->
+            <div style="margin-bottom:1.25rem; font-size:0.75rem; color:#64748b; display:flex; flex-wrap:wrap; gap:4px; align-items:center;">
+              <span>Try Demo:</span>
+              <a href="#" onclick="document.getElementById('quickPortalRoll').value='APS-2026-101'; return false;" style="color:var(--secondary); font-weight:700; background:#f1f5f9; padding:2px 8px; border-radius:4px; border:1px solid #cbd5e1;">APS-2026-101 (Pass)</a>
+              <a href="#" onclick="document.getElementById('quickPortalRoll').value='APS-2026-102'; return false;" style="color:#b91c1c; font-weight:700; background:#fee2e2; padding:2px 8px; border-radius:4px; border:1px solid #fecaca;">APS-2026-102 (Supply)</a>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
-            <p style="font-size: 0.75rem; text-align: center; color: #94a3b8; margin-top: 1rem;">For demo, enter any Student ID and password to preview.</p>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding:0.75rem; font-weight:700;">
+              <i class="fa-solid fa-magnifying-glass"></i> View My Result &amp; DMC
+            </button>
           </form>
+
+          <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; text-align: center;">
+            <a href="results.html" style="font-size: 0.82rem; font-weight: 700; color: var(--secondary); text-decoration: none;">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Full Dedicated Result Portal Page
+            </a>
+          </div>
         </div>
       </div>
     `;
     document.body.appendChild(modal);
 
-    const form = modal.querySelector('#portalLoginForm');
+    const form = modal.querySelector('#portalQuickSearchForm');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      closeModal('portal-modal');
-      showToast('Welcome back! Loading student dashboard...', 'success');
+      const roll = document.getElementById('quickPortalRoll')?.value.trim();
+      if (roll) {
+        closeModal('portal-modal');
+        window.location.href = `results.html?roll=${encodeURIComponent(roll)}`;
+      }
     });
   }
 
